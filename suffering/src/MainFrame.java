@@ -12,17 +12,17 @@ import javax.swing.JFrame;
 public class MainFrame extends JFrame 
 {
     
-    TitleAnim title;
+    //TitleAnim title;
     LoadPanels loadPanels;
     LoadConstraints constraints;
-    RestartEXE restart;
+    Menus menus;
     
 
     public void Window()
     {
-        
+        ;
         constraints = new LoadConstraints();
-        title = new TitleAnim();
+        //title = new TitleAnim();
         loadPanels = new LoadPanels();
         
 //------CHANGE COLOR-----------------------------------------------------
@@ -33,8 +33,9 @@ public class MainFrame extends JFrame
         setVisible(true);
         setSize(525,600);
 
+        
         loadPanels.PanelsLoop();
-        constraints.LoadTitle(title, this);
+        //constraints.LoadTitle(title, this);
         constraints.LoadPanels(loadPanels.givePanels(), this);
         
 
@@ -43,7 +44,7 @@ public class MainFrame extends JFrame
     @SuppressWarnings("static-access")
     public void Run()
     {   
-        restart = new RestartEXE();
+        menus = new Menus();
         Thread gameThread = new Thread(new Runnable() {
             @Override
             public void run()
@@ -53,15 +54,24 @@ public class MainFrame extends JFrame
         gameThread.start();
         System.out.println("Game Thread alive "  + gameThread.isAlive());
         
-        restart.RestartBooleanMenu();
+        int iteration = 0;
+        menus.showStartMenu();
+        while(menus.getStart()==false)
+            {
+                
+            }
+        
         for(int run = 0; run < 1; run++ )
         {
-            System.out.println("for loop started");
-            System.out.println("run iteration " + run);
-            
             Window();
-            while((restart.getButton()==0)||(run < 1))
-            {
+            iteration +=1;
+            System.out.println("for loop started");
+            System.out.println("run iteration " + iteration);
+            
+            
+            while(menus.getStart()==true && ((menus.getButton()==0)||(run < 1)))
+            {   
+                
 
                 System.out.println("run() while loop started");
 
@@ -80,27 +90,27 @@ public class MainFrame extends JFrame
             if(((this.loadPanels.getWinner()==true)||(this.loadPanels.checkWinner()==true))||this.loadPanels.checkDraw())
             {         
                 
+                menus.RestartBooleanMenu();
+                menus.showMenu(true);
                 
-                restart.showMenu(true);
                 
-                
-               if(restart.getButton()==1)
+               if(menus.getButton()==1)
                {
-                restart.showMenu(false);
+                menus.showMenu(false);
                 System.exit(0);
                }
                System.out.println("exit checked");
-               if(restart.getButton()==2)
+               if(menus.getButton()==2)
                {
-                restart.showMenu(false);
+                menus.showMenu(false);
                 System.out.println("Game is restarting");
                 loadPanels.resetPanels();
                 System.out.println("win set to " + loadPanels.checkWinner());
                 //run--;
                 //System.out.println("for loop decreased");
                 System.out.println("run iteration " + run);
-                restart.resetClass();
-                restart.showMenu(false);
+                menus.resetClass();
+                menus.showMenu(false);
                 
                }
                
