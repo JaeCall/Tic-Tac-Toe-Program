@@ -31,13 +31,13 @@ public class MainFrame extends JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);                        
         setLocationRelativeTo(null);
         setVisible(true);
-        setSize(525,600);
+        setSize(526,601);
 
         
         loadPanels.PanelsLoop();
         //constraints.LoadTitle(title, this);
         constraints.LoadPanels(loadPanels.givePanels(), this);
-        
+        pack();
 
 
     }
